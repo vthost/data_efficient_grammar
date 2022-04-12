@@ -15,7 +15,10 @@ import pprint
 import pickle
 import argparse
 import fcntl
-from retro_star_listener import lock
+try:
+    from retro_star_listener import lock
+except:
+    pass
 
 
 def evaluate(grammar, args, metrics=['diversity', 'syn']):

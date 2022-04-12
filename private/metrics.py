@@ -2,8 +2,10 @@ from rdkit import DataStructs, Chem
 from rdkit.Chem import AllChem
 import numpy as np
 import torch.multiprocessing as mp
-from retro_star.api import RSPlanner
-
+try:
+    from retro_star.api import RSPlanner
+except:
+    pass
 
 class InternalDiversity():
     def distance(self, mol1, mol2, dtype="Tanimoto"):
@@ -15,6 +17,7 @@ class InternalDiversity():
             raise NotImplementedError
 
     def get_diversity(self, mol_list, dtype="Tanimoto"):
+        if len(mol_list) <= 1: return 0
         similarity = 0
         mol_list = [AllChem.GetMorganFingerprintAsBitVect(x, 3, 2048) for x in mol_list] 
         for i in range(len(mol_list)):

@@ -256,15 +256,18 @@ def __extract_subgraph(mol, selected_atoms):
 def extract_subgraph(smiles, selected_atoms): 
     # try with kekulization
     mol = Chem.MolFromSmiles(smiles)
-    Chem.Kekulize(mol)
-    subgraph_mapped, roots = __extract_subgraph(mol, selected_atoms) 
-    subgraph = Chem.MolToSmiles(subgraph_mapped, kekuleSmiles=True)
-    assert '.' not in subgraph
-    subgraph = Chem.MolFromSmiles(subgraph)
+    try:  # VT
+        Chem.Kekulize(mol)
+        subgraph_mapped, roots = __extract_subgraph(mol, selected_atoms)
+        subgraph = Chem.MolToSmiles(subgraph_mapped, kekuleSmiles=True)
+        assert '.' not in subgraph
+        subgraph = Chem.MolFromSmiles(subgraph)
 
-    mol = Chem.MolFromSmiles(smiles)  # de-kekulize
-    if subgraph is not None and mol.HasSubstructMatch(subgraph):
-        return subgraph, subgraph_mapped, roots
+        mol = Chem.MolFromSmiles(smiles)  # de-kekulize
+        if subgraph is not None and mol.HasSubstructMatch(subgraph):
+            return subgraph, subgraph_mapped, roots
+    except:
+        pass
 
     # If fails, try without kekulization
     subgraph_mapped, roots = __extract_subgraph(mol, selected_atoms) 
