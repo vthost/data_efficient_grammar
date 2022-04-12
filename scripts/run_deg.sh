@@ -22,7 +22,7 @@ fi
 DATASET="data/${DATAID}.txt"
 
 # minimal similarity each generated molecule should have with at least one of input molecules
-# (just used as filter, in order to filter out very small molecules or similar, so set as low as poossible/useful)
+# (just used as filter, in order to filter out very small molecules or similar, so set as low as possible/useful)
 MINSIM=0.1
 
 # ';' separated string of 'metric,weight' pairs
@@ -30,7 +30,7 @@ MINSIM=0.1
 # see example mymetric.py
 # ------------
 # metrics:
-# diversity:
+# diversity: based on Tanimoto similarity between generated molecules
 # sharing: rules should be such that they capture aspects of more than one of the input graphs
 # frags: check if required fragments are present in generated samples
 # rings: check if the kinds of rings in generated samples are also found in input
@@ -39,7 +39,7 @@ MINSIM=0.1
 #
 # also available (better do not use for now or choose good weights or adapt implementation):
 # num_rules: really just that, not normalized, ... lower considered better in order to have compact grammar
-# num_samples: really just that, not normalized, inverted or similar
+# num_samples: really just that, not normalized, inverted or similar ... if very low, generation has trouble with rules
 METRICS="diversity,1;sharing,2;frags,2;rings,2;mymetric.my_metric,2"
 
 # ';' separated string of 'fragmentname,mincount-in-molecule', i.e., ','-separated pairs
