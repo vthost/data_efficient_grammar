@@ -228,6 +228,8 @@ if __name__ == '__main__':
         fw.write('')
 
     def prep_arg(arg):
+        if not arg:
+            return []
         arg = [tuple(s.split(',')) for s in arg.split(';')]
         return [(s[0], int(s[1])) for s in arg]
 
